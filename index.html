@@ -113,8 +113,9 @@
                         const videoDetailsResponse = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoId}&key=${API_KEY}`);
                         const videoDetailsData = await videoDetailsResponse.json();
                         const duration = videoDetailsData.items[0].contentDetails.duration;
-                        // Shorts : durée <= 60 secondes
-                        if (parseISODuration(duration) <= 60) return videoId;
+                        const seconds = parseISODuration(duration);
+                        // Shorts : durée > 5 secondes et <= 60 secondes
+                        if (seconds > 5 && seconds <= 60) return videoId;
                     }
                     throw new Error('Aucune vidéo Short trouvée');
                 } catch (error) {
