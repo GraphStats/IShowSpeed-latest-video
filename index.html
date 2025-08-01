@@ -1,132 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>500 Internal Server Error</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+    <meta charset="UTF-8">
+    <title>Vidéos de MrBeast</title>
+    <link rel="stylesheet" href="https://github.hubspot.com/odometer/themes/odometer-theme-default.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    * {
-      box-sizing: border-box;
-    }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: black;
+            color: white;
+            font-weight: 900;
+        }
 
-    body {
-      margin: 0;
-      padding: 0 20px;
-      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
-      color: #eee;
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      text-align: center;
-      overflow: hidden;
-      position: relative;
-    }
+        #main {
+            padding: 0;
+            margin: 0;
+        }
 
-    .glow {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(255,65,108,0.25) 0%, transparent 70%);
-      transform: translate(-50%, -50%);
-      animation: pulse 4s infinite;
-      z-index: -1;
-      pointer-events: none;
-      border-radius: 50%;
-    }
+        .video-list {
+            display: flex;
+            flex-wrap: wrap;
+        }
 
-    h1 {
-      font-size: 4em;
-      font-weight: 600;
-      background: linear-gradient(90deg, #ff416c, #ff4b2b);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 0.2em;
-      animation: slideIn 1s ease-out forwards;
-      opacity: 0;
-    }
+        .video-item {
+            text-align: left;
+            color: white;
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+        }
 
-    p {
-      max-width: 600px;
-      font-size: 1.2em;
-      font-weight: 300;
-      color: #ccc;
-      margin-bottom: 2em;
-      animation: fadeIn 2s ease-out forwards;
-      opacity: 0;
-    }
+        .video-item h3 {
+            margin: 0;
+            font-size: 5em;
+        }
 
-    .button {
-      padding: 12px 32px;
-      font-weight: 600;
-      font-size: 1.1em;
-      border: none;
-      border-radius: 30px;
-      background: linear-gradient(90deg, #ff416c, #ff4b2b);
-      color: white;
-      text-decoration: none;
-      transition: 0.3s ease;
-      animation: fadeIn 3s ease-out forwards;
-      opacity: 0;
-    }
+        .thumbnail-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            position: relative;
+        }
 
-    .button:hover {
-      background: linear-gradient(90deg, #ff4b2b, #ff416c);
-      transform: scale(1.05);
-    }
+        .thumbnail-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
 
-    @keyframes slideIn {
-      from {
-        transform: translateY(-50px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
+        .odometer {
+            font-family: 'Roboto', sans-serif !important;
+            font-size: 7em;
+            font-weight: 900;
+        }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
+        .likes {
+            font-family: 'Roboto', sans-serif;
+            color: lightgreen;
+        }
 
-    @keyframes pulse {
-      0%, 100% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0.6;
-      }
-      50% {
-        transform: translate(-50%, -50%) scale(1.2);
-        opacity: 0.3;
-      }
-    }
-
-    @media (max-width: 640px) {
-      h1 {
-        font-size: 2.5em;
-      }
-
-      p {
-        font-size: 1em;
-      }
-    }
-  </style>
+        .views {
+            font-family: 'Roboto', sans-serif;
+            color: lightblue;
+        }
+    </style>
+    <script src="https://github.hubspot.com/odometer/odometer.js"></script>
 </head>
 <body>
-  <div class="glow"></div>
-  <h1>500 – Internal Server Error</h1>
-  <p>Something went wrong on our side. Please try again later or return to the homepage.</p>
-  <a href="https://vercel.com" class="button">Back to Home</a>
+    <div id="main">
+        <div class="video-list">
+            <div class="video-item">
+                <div class="thumbnail-container">
+                    <img id="mrbeast-video-thumbnail" src="https://via.placeholder.com/300x200?text=Thumbnail+non+trouv%C3%A9e" alt="Miniature de la vidéo">
+                </div>
+                <h3 id="mrbeast-video-title">Loading...</h3>
+                <p><span id="mrbeast-video-views" class="odometer views">0</span></p>
+                <p><span id="mrbeast-video-likes" class="odometer likes">0</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = 'AIzaSyAOaM84oIMjp9h_FJHxE4jc0Cxbd1XXUj0';
+        const MRBEAST_CHANNEL_ID = 'UCWsDFcIhY2DBi3GB5uykGXA';
+
+        document.addEventListener("DOMContentLoaded", () => {
+            function parseISODuration(duration) {
+                if (!duration || typeof duration !== 'string') return 0;
+                const regex = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/;
+                const matches = duration.match(regex);
+                if (!matches) return 0;
+                const hours = parseInt(matches[1] || 0, 10);
+                const minutes = parseInt(matches[2] || 0, 10);
+                const seconds = parseInt(matches[3] || 0, 10);
+                return hours * 3600 + minutes * 60 + seconds;
+            }
+
+            async function fetchLatestVideoId() {
+                try {
+                    const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${MRBEAST_CHANNEL_ID}&maxResults=10&order=date&type=video&key=${API_KEY}`);
+                    if (!response.ok) throw new Error('Erreur lors de la récupération des vidéos');
+                    const data = await response.json();
+                    for (const item of data.items) {
+                        const videoId = item.id.videoId;
+                        const videoDetailsResponse = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoId}&key=${API_KEY}`);
+                        const videoDetailsData = await videoDetailsResponse.json();
+                        const duration = videoDetailsData.items[0].contentDetails.duration;
+                        const seconds = parseISODuration(duration);
+                        // Shorts : durée > 5 secondes et <= 60 secondes
+                        if (seconds > 5 && seconds <= 60) return videoId;
+                    }
+                    throw new Error('Aucune vidéo Short trouvée');
+                } catch (error) {
+                    console.error('Erreur vidéo :', error);
+                }
+            }
+
+            async function fetchVideoData(videoId) {
+                try {
+                    const response = await fetch(`https://backend.mixerno.space/api/youtube/video/${videoId}`);
+                    if (!response.ok) throw new Error('Erreur récupération données vidéo');
+                    const data = await response.json();
+                    const video = data.items[0];
+                    document.getElementById('mrbeast-video-title').innerText = video.snippet.title || 'Titre non trouvé';
+                    document.getElementById('mrbeast-video-thumbnail').src = video.snippet.thumbnails?.medium?.url || 'https://via.placeholder.com/300x200?text=Thumbnail+non+trouv%C3%A9e';
+                    document.getElementById('mrbeast-video-views').innerText = video.statistics?.viewCount || '0';
+                    document.getElementById('mrbeast-video-likes').innerText = video.statistics?.likeCount || '0';
+                } catch (error) {
+                    console.error('Erreur vidéo data :', error);
+                }
+            }
+
+            let currentVideoId = null;
+
+            async function updateVideoData() {
+                if (currentVideoId) fetchVideoData(currentVideoId);
+            }
+
+            async function updateVideoId() {
+                currentVideoId = await fetchLatestVideoId();
+                if (currentVideoId) updateVideoData();
+            }
+
+            setInterval(updateVideoData, 2000);
+            updateVideoId();
+        });
+    </script>
 </body>
 </html>
